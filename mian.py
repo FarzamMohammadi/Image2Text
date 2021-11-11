@@ -1,7 +1,8 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import filedialog
-import os
+import cv2
+import pytesseract
 
 root = tk.Tk()
 root.withdraw()
@@ -10,12 +11,15 @@ style.theme_use("clam")
 
 
 def get_Image():
-    file = filedialog.askopenfilenames(parent=root, initialdir='/', initialfile='tmp',
-                                       filetypes=[("PNG", "*.png"), ("JPEG", "*.jpg"), ("All files", "*")])
+    # Browse local files & get path
+    file_path = filedialog.askopenfilename(parent=root, initialdir='/', initialfile='tmp',
+                                           filetypes=[("All files", "*")])
+
+    # Convert image to text with tesseract
+    img = cv2.imread(file_path)
+    text = pytesseract.image_to_string(img, lang="eng")
+    print(text)
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     get_Image()
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
